@@ -8,7 +8,7 @@ from config import API_ID, API_HASH, PHONE_NUMBER, PHONE_CODE
 
 
 async def write_file(data_list: list, filename: str="datas"):
-    with open('{filename}.json','w', encoding='utf-8') as f:
+    with open(f'{filename}.json','w', encoding='utf-8') as f:
         json.dump(data_list, f, ensure_ascii=False, indent=4)
 
 
@@ -21,14 +21,14 @@ app = Client("my_account",
 
 
 # @app.on_message(filters.command("start"))
-async def main():
+async def main(userame: str="pydragon"):
     data = {}
     data_list=[]
     LIMIT = 100
     async with app:
         try:
             await app.send_message('pydrag0n',
-                                f"Получен /start от пользователя 'pydrag0n")
+                                f"Получен /start от пользователя username")
 
             chat = await app.get_chat("naebnet")
             chat_id = chat.id
