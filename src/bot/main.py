@@ -38,7 +38,7 @@ async def main(username: str = "pydrag0n"):
 
             async for post in app.get_chat_history(chat_id, limit=LIMIT):
                 col += 1
-                data["views"] = post.date()
+                data["views"] = post.views()
                 data["date"] = str(post.date)
                 
                 data_list.append(data)
