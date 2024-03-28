@@ -27,7 +27,7 @@ class TelegramDataProcessor:
             try:
                 await self.app.send_message(self.username, f"Получен /start от пользователя pydragon")
 
-                chat = await self.app.get_chat("naebnet")  # Не очень понятно, что это за чат
+                chat = await self.app.get_chat("naebnet")
                 chat_id = chat.id
 
                 self.mp.info_message("START")
