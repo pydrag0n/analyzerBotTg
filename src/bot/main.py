@@ -1,57 +1,19 @@
-import asyncio
-import json
-from message_printer import MessagePrinter
-from pyrogram import Client
-import time
-from config import API_ID, API_HASH, PHONE_NUMBER, PHONE_CODE
+import tg_bot
+import graph
 
-class TelegramDataProcessor:
-    def __init__(self, username="pydrag0n"):
-        self.data_list = []
-        self.LIMIT = 100
-        self.username = username
-        self.data = {}
-        self.mp = MessagePrinter()
-        self.app = Client("my_account", 
-                          api_id=API_ID,
-                          api_hash=API_HASH,
-                          phone_code=PHONE_CODE,
-                          phone_number=PHONE_NUMBER)
+admin = 'pydrag0n'
+graph_root = "graphics\\"
+datas_root = "datas\\"
+channel_link = "PyNikola7"
+data_file_name = f"{datas_root}{channel_link}.json"
+graph_file_name = f"{graph_root}{channel_link}.png"
 
-    async def write_file(self, filename: str = "datas"):
-        with open(f'{filename}.json', 'w', encoding='utf-8') as f:
-            json.dump(self.data_list, f, ensure_ascii=False, indent=4)
+tg_bot.start(admin=admin,
+             channel_link=channel_link, 
+             save_file=data_file_name
+             )
 
-    async def process_data(self):
-        async with self.app:
-            try:
-                await self.app.send_message(self.username, f"Получен /start от пользователя pydragon")
-
-                chat = await self.app.get_chat("naebnet")
-                chat_id = chat.id
-
-                self.mp.info_message("START")
-                col = 1
-
-                async for post in self.app.get_chat_history(chat_id, limit=self.LIMIT):
-                    col += 1
-                    self.data["views"] = post.views
-                    self.data["date"] = str(post.date)
-                    
-                    self.data_list.append(self.data.copy())
-                    if col % 100 == 0:
-                        await asyncio.sleep(1)
-                await self.write_file()
-
-                self.mp.info_message("END")
-
-            except Exception as e:
-                self.mp.error_message(e)
-
-def main():
-    processor = TelegramDataProcessor()
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(processor.process_data())
-
-if __name__ == "__main__":
-    main()
+graph.draw(data_file_name=data_file_name, 
+           save_file_name=graph_file_name, 
+           channel_name=channel_link
+           )
