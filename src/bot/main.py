@@ -7,8 +7,8 @@ import random
 from config import API_ID, API_HASH, PHONE_NUMBER, PHONE_CODE
 
 
-async def write_file(data_list: list, filename: str="datas"):
-    with open(f'{filename}.json','w', encoding='utf-8') as f:
+async def write_file(data_list: list, filename: str = "datas"):
+    with open(f'{filename}.json', 'w', encoding='utf-8') as f:
         json.dump(data_list, f, ensure_ascii=False, indent=4)
 
 
@@ -21,34 +21,34 @@ app = Client("my_account",
 
 
 # @app.on_message(filters.command("start"))
-async def main(userame: str="pydragon"):
+async def main(username: str = "pydrag0n"):
     data = {}
-    data_list=[]
-    LIMIT = 100
+    data_list = []
+    LIMIT = 1000
+
     async with app:
         try:
-            await app.send_message('pydrag0n',
-                                f"Получен /start от пользователя username")
+            await app.send_message('pydrag0n', f"Получен /start от пользователя pydragon")
 
-            chat = await app.get_chat("naebnet")
+            chat = await app.get_chat("ithelpersss")
             chat_id = chat.id
-            
-            mp.info_message("START")
 
-            async for posts in app.get_chat_history(chat_id, limit=LIMIT):
-                
-                data["views"] = posts.views
-                data["date"] = str(posts.date)
+            mp.info_message("START")
+            col = 1
+
+            async for post in app.get_chat_history(chat_id, limit=LIMIT):
+                col += 1
+                data["views"] = post.date()
+                data["date"] = str(post.date)
                 
                 data_list.append(data)
                 data = {}
-                
-            time.sleep(random.randint(2, 5))
+                if col % 100 == 0:
+                    time.sleep(1)
             await write_file(data_list)
-            
+
             mp.info_message("END")
-            
-            
+
         except Exception as e:
             mp.error_message(e)
 
