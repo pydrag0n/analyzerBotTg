@@ -1,4 +1,5 @@
 src/bot/__pycache__/
-src/bot/config.py
+# src/bot/config.py
 src/bot/my_account.session
 src/bot/my_account.session-journal
+src/__pycache__

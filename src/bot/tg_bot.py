@@ -11,7 +11,7 @@ class Bot:
                  save_file:str):
         
         self.save_file = save_file
-        self.LIMIT = 10000
+        self.LIMIT = 51
         self.username = admin
         self.channel_link = channel_link
         self.data_list = []
@@ -33,13 +33,13 @@ class Bot:
             try:
                 await self.app.send_message(self.username, f"Получен /start от пользователя pydragon")
 
-                chat = await self.app.get_chat(self.channel_link)
-                chat_id = chat.id
+                channel = await self.app.get_chat(self.channel_link)
+                channel_id = channel.id
 
                 self.mp.info_message("START")
                 col = 1
 
-                async for post in self.app.get_chat_history(chat_id, limit=self.LIMIT):
+                async for post in self.app.get_chat_history(channel_id, limit=self.LIMIT):
                     col += 1
                     self.data["views"] = post.views
                     self.data["date"] = str(post.date)
@@ -48,12 +48,17 @@ class Bot:
                     if col % 100 == 0:
                         await asyncio.sleep(1)
                 await self.write_file(filename=self.save_file)
-
+                await self.get_count_subscribers(app=self.app)
+                
                 self.mp.info_message("END")
 
             except Exception as e:
                 self.mp.error_message(e)
-
+    async def get_count_subscribers(self, app):
+            channel = await self.app.get_chat(self.channel_link)
+            count_channel_members = await self.app.get_chat_members_count(channel.id)
+            print(count_channel_members)
+        
 def start(admin:str,
           channel_link:str,
           save_file:str
@@ -64,8 +69,8 @@ def start(admin:str,
                     save_file=save_file
                     )
     
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(processor.process_data())
+    # loop = asyncio.get_event_loop()
+    # loop.run_until_complete(processor.process_data())
 
 
 
