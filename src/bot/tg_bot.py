@@ -8,10 +8,11 @@ class Bot:
     def __init__(self,
                  admin:str,
                  channel_link:str,
+                 limit: int,
                  save_file:str):
         
         self.save_file = save_file
-        self.LIMIT = 51
+        self.LIMIT = limit
         self.username = admin
         self.channel_link = channel_link
         self.data_list = []
@@ -61,16 +62,18 @@ class Bot:
         
 def start(admin:str,
           channel_link:str,
+          limit:int,
           save_file:str
           ):
     
     processor = Bot(admin=admin,
                     channel_link=channel_link,
+                    limit=limit,
                     save_file=save_file
                     )
     
-    # loop = asyncio.get_event_loop()
-    # loop.run_until_complete(processor.process_data())
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(processor.process_data())
 
 
 
