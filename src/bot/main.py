@@ -4,8 +4,8 @@ import tg_bot
 admin = 'pydrag0n' #  юзернейм пользователя, которому будут приходить сообщения о запуске бота.
 channel_link = "naebnet" # ссылка на канал без https://t.me/  
 LIMIT = 5000 # количество постов которое надо спарсить
-graph_root = "graphics\\" # корневая папка для графиков
-datas_root = "datas\\" # корневая папка для json файлов
+graph_root = "graphic\\" # корневая папка для графиков
+datas_root = "data\\" # корневая папка для json файлов
 
 
 data_file_name = f"{datas_root}{channel_link}.json"
